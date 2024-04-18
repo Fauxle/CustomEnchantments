@@ -1,0 +1,13 @@
+name: CustomEnchantments
+version: '$version'
+main: me.fauxle.customenchants.EnchantmentPlugin
+api-version: '1.17'
+commands:
+  elore:
+    description: Edits item lore
+    permission: op
+    usage: Edits the lore of an item, use "_" when typing spaces. Format is /<command> <line1> [line2] [line3] ...
+  ename:
+    description: Edits item name
+    permission: op
+    usage: Edits the name of an item

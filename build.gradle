@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group 'me.fauxle'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name 'papermc-repo'
+        url 'https://papermc.io/repo/repository/maven-public/'
+    }
+
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testRuntimeOnly group: 'io.papermc.paper', name: 'paper-api', version: '1.17.1-R0.1-SNAPSHOT'
+
+    // Runtime Environments
+    compileOnly group: 'io.papermc.paper', name: 'paper-api', version: '1.17.1-R0.1-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+processResources {
+    inputs.property "version", project.version
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        expand 'version': project.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'plugin.yml'
+    }
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
